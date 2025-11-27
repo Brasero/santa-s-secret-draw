@@ -121,6 +121,7 @@ const AccessDraw = () => {
                     className="mt-2"
                     autoFocus
                     list="participant-names"
+                    disabled
                   />
                   <datalist id="participant-names">
                     {draw.participants.map((participant, index) => (
