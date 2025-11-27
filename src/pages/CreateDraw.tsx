@@ -12,6 +12,7 @@ import { Participant, Couple, Draw } from '@/types/draw';
 import { generateDrawCode, generateAssignments, saveDraw } from '@/utils/drawLogic';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { encryptString } from "@/utils/crypto.ts";
 
 const CreateDraw = () => {
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ const CreateDraw = () => {
     };
 
     // Save to localStorage
-    saveDraw(draw);
+    saveDraw(draw, draw.code);
 
     // Navigate to share page
     navigate(`/share/${draw.code}`);

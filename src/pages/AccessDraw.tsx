@@ -186,7 +186,7 @@ const AccessDraw = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-col sm:flex-row">
                   <Button
                     type="button"
                     variant="outline"
@@ -198,7 +198,6 @@ const AccessDraw = () => {
                   <Button
                     type="submit"
                     variant="festive"
-                    size="lg"
                     className="flex-1"
                     disabled={!participantName}
                   >

@@ -9,6 +9,8 @@ import { getDrawByCode } from '@/utils/drawLogic';
 import { Draw } from '@/types/draw';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const ShareDraw = () => {
   const { code } = useParams<{ code: string }>();
@@ -95,7 +97,7 @@ const ShareDraw = () => {
               <p className="text-primary-foreground/80 text-sm font-medium mb-2">
                 CODE DU TIRAGE
               </p>
-              <p className="text-5xl font-bold text-primary-foreground tracking-wider mb-4">
+              <p className="text-5xl font-bold text-primary-foreground tracking-wider mb-4 break-all">
                 {code}
               </p>
               <Button
@@ -163,7 +165,7 @@ const ShareDraw = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-col sm:flex-row">
               <Link to="/" className="flex-1">
                 <Button variant="outline" className="w-full">
                   <Home className="w-4 h-4" />
@@ -183,8 +185,5 @@ const ShareDraw = () => {
   );
 };
 
-// Missing import
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 
 export default ShareDraw;

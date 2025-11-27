@@ -1,73 +1,141 @@
-# Welcome to your Lovable project
+# 🎅 Secret Santa – Web App (React + GitHub Pages)
 
-## Project info
+### Une petite application web de tirage au sort pour organiser un Secret Santa, entièrement gratuite, hébergée sur GitHub Pages, et utilisable depuis n’importe quel téléphone.
 
-**URL**: https://lovable.dev/projects/07c57c39-8653-4242-a422-755ad1de6ba4
+### L’organisateur prépare un tirage, les participants rejoignent via un code, et chacun découvre à qui il doit offrir un cadeau grâce à une animation de flip card façon Apple.
 
-## How can I edit this code?
+## ✨ Fonctionnalités principales
+### 👩‍💼 Espace Organisateur
+ 
+- Créer un nouveau tirage
 
-There are several ways of editing your application.
+- Ajouter / supprimer des participants
 
-**Use Lovable**
+- Option “règle des couples” (certains participants ne peuvent pas se tirer entre eux)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/07c57c39-8653-4242-a422-755ad1de6ba4) and start prompting.
+- Génération d’un code unique pour le tirage
 
-Changes made via Lovable will be committed automatically to this repo.
+- Partage facile : code + QR Code
 
-**Use your preferred IDE**
+### 🎁 Espace Participant
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Accéder à un tirage via le code
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Sélectionner son nom
 
-Follow these steps:
+- Découvrir son destinataire à travers :
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- une carte animée “flip card” 3D
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- une révélation élégante et festive
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🌟 UI & UX
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- Design thème Noël : rouge, vert, doré
 
-**Edit a file directly in GitHub**
+- Animations fluides et transitions façon Apple
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Composants responsive, mobile-first
 
-**Use GitHub Codespaces**
+- Effets visuels : neige légère, ombres douces, glow
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## ⚙️ Technique
 
-## What technologies are used for this project?
+- React (Vite)
 
-This project is built with:
+- Routing SPA compatible GitHub Pages
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- Stockage simple (localStorage)
 
-## How can I deploy this project?
+- Déployé automatiquement sur GitHub Pages
 
-Simply open [Lovable](https://lovable.dev/projects/07c57c39-8653-4242-a422-755ad1de6ba4) and click on Share -> Publish.
+## 🚀 Déploiement GitHub Pages
+>1. Installer les dépendances
+   `npm install`
 
-## Can I connect a custom domain to my Lovable project?
+> 2. Lancer en local
+  ``npm run dev``
 
-Yes, you can!
+> 3. Build pour production
+   ``npm run build``
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+> 4. Déployer sur GitHub Pages
+>
+>Selon ton setup :
+>
+>Si tu utilises gh-pages :
+``npm run deploy``
+>
+>Sinon, via GitHub Actions
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+>Assure-toi d’avoir dans .github/workflows/ un fichier du type deploy.yml configuré pour les apps React sur Pages.
+
+>📁 Structure du projet
+
+/ <br>
+├─ src/ <br>
+│  ├─ components/ <br>
+│  ├─ pages/ <br>
+│  ├─ hooks/ <br>
+│  ├─ utils/ <br>
+│  ├─ styles/ <br>
+│  └─ App.jsx / App.tsx <br>
+│ <br>
+├─ public/ <br>
+├─ package.json <br>
+├─ README.md <br>
+└─ vite.config.js <br>
+
+## 🔐 Stockage des tirages
+
+>Encodage JSON dans l’URL (optionnel)
+Idéal pour les petits tirages et une app totalement stateless.
+
+## 🎨 Design & Animations
+
+La web app utilise :
+
+- Effets spring pour le flip card
+
+- Légère 3D
+
+- Couleurs et textures festives
+
+- UI mobile-first
+
+- Petite texture de fond (flocons en transparence)
+
+## 🎅 Exemple de flow
+
+1. L'organisateur crée un tirage
+
+2. Il ajoute les participants
+
+3. Il active ou non la règle des couples
+
+4. Il obtient un code de tirage
+
+5. Il partage le code (ou le QR Code)
+
+6. Chaque participant ouvre l’app
+
+7. Il saisit le code, choisit son nom
+
+8. Une carte apparaît → il appuie dessus
+
+9. Flip → la personne à qui offrir le cadeau est révélée 🎁
+
+## 🛠️ Scripts utiles
+
+| Commande          | Action                                 |
+| ----------------- | -------------------------------------- |
+| `npm run dev`     | Lance l’environnement de développement |
+| `npm run build`   | Build production                       |
+| `npm run deploy`  | Déploiement GitHub Pages               |
+| `npm run preview` | Aperçu du build local                  |
+
+
+
+## 📜 Licence
+
+MIT — libre d’utilisation et de modification.
