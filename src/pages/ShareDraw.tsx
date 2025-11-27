@@ -102,6 +102,7 @@ const ShareDraw = () => {
                 <div className="flex flex-col gap-2">
                   <Input
                     value={shareUrl}
+                    onClick={copyUrl}
                     readOnly
                     className="font-mono text-sm"
                   />
@@ -135,7 +136,8 @@ const ShareDraw = () => {
                 📱 Comment faire ?
               </h3>
               <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
-                <li>Partagez le code avec tous les participants</li>
+                <li>Partagez le lien avec tous les participants</li>
+                <li className={"text-primary"}>Attention, en quittant la page le lien sera définitivement perdu, assurer vous de l&apos;avoir enregistré ou partagé avant de quitter la page. </li>
                 <li>Chaque personne accède au tirage avec le code</li>
                 <li>Elle saisit son nom et découvre son Secret Santa !</li>
               </ol>
