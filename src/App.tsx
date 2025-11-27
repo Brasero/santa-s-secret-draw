@@ -17,7 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <HashRouter basename={"/santa-s-secret-draw"}>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<CreateDraw />} />
