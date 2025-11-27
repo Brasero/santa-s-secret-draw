@@ -1,57 +1,38 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Gift, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Snowfall } from '@/components/Snowfall';
-import { getDrawByCode } from '@/utils/drawLogic';
+import { decodeDrawFromUrl } from '@/utils/drawLogic';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { Draw } from '@/types/draw';
 
 const AccessDraw = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [searchParams] = useSearchParams();
+  const { encodedDraw } = useParams<{ encodedDraw: string }>();
   
-  const [code, setCode] = useState(searchParams.get('code') || '');
+  const [draw, setDraw] = useState<Draw | null>(null);
   const [participantName, setParticipantName] = useState('');
-  const [availableNames, setAvailableNames] = useState<string[]>([]);
-  const [step, setStep] = useState<'code' | 'name'>('code');
 
   useEffect(() => {
-    if (searchParams.get('code')) {
-      validateCode(searchParams.get('code')!);
+    if (encodedDraw) {
+      const decodedDraw = decodeDrawFromUrl(encodedDraw);
+      if (decodedDraw) {
+        setDraw(decodedDraw);
+      } else {
+        toast({
+          title: 'Lien invalide',
+          description: 'Le lien du tirage est invalide ou corrompu',
+          variant: 'destructive',
+        });
+      }
     }
-  }, []);
-
-  const validateCode = (inputCode: string) => {
-    const draw = getDrawByCode(inputCode);
-    if (draw) {
-      setAvailableNames(draw.participants.map(p => p.name));
-      setStep('name');
-    } else {
-      toast({
-        title: 'Code invalide',
-        description: 'Aucun tirage ne correspond à ce code',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleCodeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (code.trim().length === 6) {
-      validateCode(code.toUpperCase());
-    } else {
-      toast({
-        title: 'Code invalide',
-        description: 'Le code doit contenir 6 caractères',
-        variant: 'destructive',
-      });
-    }
-  };
+  }, [encodedDraw]);
 
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +45,6 @@ const AccessDraw = () => {
       return;
     }
 
-    const draw = getDrawByCode(code);
     if (!draw) {
       toast({
         title: 'Erreur',
@@ -88,7 +68,7 @@ const AccessDraw = () => {
     }
 
     // Navigate to reveal page
-    navigate(`/reveal/${code}/${participant.id}`);
+    navigate(`/reveal/${encodedDraw}/${participant.id}`);
   };
 
   return (
@@ -113,42 +93,24 @@ const AccessDraw = () => {
               Accéder au tirage
             </h1>
             <p className="text-muted-foreground">
-              {step === 'code' ? 'Entrez votre code' : 'Sélectionnez votre nom'}
+              Sélectionnez votre nom
             </p>
           </div>
 
-          <Card className="p-8 bg-card/80 backdrop-blur-sm shadow-elegant border-2">
-            {step === 'code' ? (
-              <form onSubmit={handleCodeSubmit} className="space-y-6">
-                <div>
-                  <Label htmlFor="code" className="text-base">Code du tirage</Label>
-                  <Input
-                    id="code"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value.toUpperCase())}
-                    placeholder="ABC123"
-                    maxLength={6}
-                    className="mt-2 text-center text-2xl font-bold tracking-wider"
-                    autoFocus
-                  />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Code de 6 caractères fourni par l'organisateur
+          {!draw ? (
+            <Card className="p-8 bg-card/80 backdrop-blur-sm shadow-elegant border-2">
+              <p className="text-center text-muted-foreground">Chargement du tirage...</p>
+            </Card>
+          ) : (
+            <Card className="p-8 bg-card/80 backdrop-blur-sm shadow-elegant border-2">
+              <form onSubmit={handleNameSubmit} className="space-y-6">
+                <div className="text-center space-y-2 mb-6">
+                  <h2 className="text-xl font-bold">{draw.drawName}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Organisé par {draw.organizerName}
                   </p>
                 </div>
 
-                <Button
-                  type="submit"
-                  variant="festive"
-                  size="lg"
-                  className="w-full"
-                  disabled={code.length !== 6}
-                >
-                  Continuer
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </form>
-            ) : (
-              <form onSubmit={handleNameSubmit} className="space-y-6">
                 <div>
                   <Label htmlFor="name" className="text-base">Votre nom</Label>
                   <Input
@@ -161,8 +123,8 @@ const AccessDraw = () => {
                     list="participant-names"
                   />
                   <datalist id="participant-names">
-                    {availableNames.map((name, index) => (
-                      <option key={index} value={name} />
+                    {draw.participants.map((participant, index) => (
+                      <option key={index} value={participant.name} />
                     ))}
                   </datalist>
                   <p className="text-sm text-muted-foreground mt-2">
@@ -173,40 +135,31 @@ const AccessDraw = () => {
                 <div className="bg-muted/50 rounded-2xl p-4">
                   <p className="text-sm font-medium mb-2">Participants :</p>
                   <div className="flex flex-wrap gap-2">
-                    {availableNames.map((name, index) => (
+                    {draw.participants.map((participant, index) => (
                       <button
                         key={index}
                         type="button"
-                        onClick={() => setParticipantName(name)}
+                        onClick={() => setParticipantName(participant.name)}
                         className="px-3 py-1 bg-primary/10 hover:bg-primary/20 rounded-xl text-sm font-medium transition-smooth"
                       >
-                        {name}
+                        {participant.name}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex gap-3 flex-col sm:flex-row">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep('code')}
-                    className="flex-1"
-                  >
-                    Retour
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="festive"
-                    className="flex-1"
-                    disabled={!participantName}
-                  >
-                    Découvrir 🎁
-                  </Button>
-                </div>
+                <Button
+                  type="submit"
+                  variant="festive"
+                  size="lg"
+                  className="w-full"
+                  disabled={!participantName}
+                >
+                  Découvrir 🎁
+                </Button>
               </form>
-            )}
-          </Card>
+            </Card>
+          )}
         </motion.div>
       </div>
     </div>

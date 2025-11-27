@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Snowfall } from '@/components/Snowfall';
 import { Participant, Couple, Draw } from '@/types/draw';
-import { generateDrawCode, generateAssignments, saveDraw } from '@/utils/drawLogic';
+import { generateDrawCode, generateAssignments, encodeDrawToUrl } from '@/utils/drawLogic';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { encryptString } from "@/utils/crypto.ts";
@@ -120,11 +120,11 @@ const CreateDraw = () => {
       createdAt: new Date().toISOString(),
     };
 
-    // Save to localStorage
-    saveDraw(draw, draw.code);
+    // Encode draw data for URL
+    const encodedDraw = encodeDrawToUrl(draw);
 
-    // Navigate to share page
-    navigate(`/share/${draw.code}`);
+    // Navigate to share page with encoded data
+    navigate(`/share/${encodedDraw}`);
     setIsLoading(false);
   };
 
