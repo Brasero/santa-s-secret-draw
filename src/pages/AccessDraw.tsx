@@ -72,7 +72,7 @@ const AccessDraw = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative bg-primary overflow-hidden">
       <Snowfall />
 
       <div className="relative z-10 container mx-auto px-4 py-12 max-w-md">
@@ -87,12 +87,12 @@ const AccessDraw = () => {
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="inline-block mb-4"
             >
-              <Gift className="w-16 h-16 text-primary" />
+              <Gift className="w-16 h-16 text-primary-foreground" />
             </motion.div>
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary-foreground to-accent bg-clip-text text-transparent">
               Accéder au tirage
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-primary-foreground/60">
               Sélectionnez votre nom
             </p>
           </div>

@@ -17,6 +17,7 @@ const ShareDraw = () => {
   const { toast } = useToast();
   const [draw, setDraw] = useState<Draw | null>(null);
   const [copied, setCopied] = useState(false);
+  const isMobile = /iPhone|Android.+Mobile/.test(navigator.userAgent);
 
   useEffect(() => {
     if (encodedDraw) {
@@ -25,26 +26,40 @@ const ShareDraw = () => {
     }
   }, [encodedDraw]);
 
-  const copyCode = () => {
-    if (draw?.code) {
-      navigator.clipboard.writeText(draw.code);
-      setCopied(true);
-      toast({
-        title: 'Code copié !',
-        description: 'Le code a été copié dans le presse-papier',
+  const share = () => {
+    const message = `Rejoins le tirage Secret Santa ${draw?.drawName} ! \n Participe au tirage au sort Secret Santa en utilisant ce lien : \n ${shareUrl}`;
+    if (navigator.share) {
+      navigator.share({
+        title: `Rejoins le tirage Secret Santa ${draw.drawName} !`,
+        text: 'Participe au tirage au sort Secret Santa en utilisant ce lien :',
+        url: shareUrl,
+      }).then(() => {
+        toast({
+          title: 'Partagé avec succès !',
+          description: 'Le lien a été partagé via les options de partage de votre appareil.',
+        });
+      }).catch((error) => {
+        toast({
+          title: 'Erreur de partage',
+          description: `Le partage a échoué : ${error.message}`,
+          variant: 'destructive',
+        });
       });
-      setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.location.href = `sms:?&body=${encodeURIComponent(message)}`;
     }
-  };
+  }
 
   const shareUrl = encodedDraw ? `${window.location.origin}/access/${encodedDraw}` : '';
 
   const copyUrl = () => {
+    setCopied(true);
     navigator.clipboard.writeText(shareUrl);
     toast({
       title: 'Lien copié !',
       description: 'Le lien a été copié dans le presse-papier',
     });
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (!draw) {
@@ -56,7 +71,7 @@ const ShareDraw = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden bg-primary">
       <Snowfall />
 
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-2xl">
@@ -73,10 +88,10 @@ const ShareDraw = () => {
             >
               <Share2 className="w-16 h-16 text-primary" />
             </motion.div>
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary-foreground to-accent bg-clip-text text-transparent">
               Tirage créé avec succès ! 🎉
             </h1>
-            <p className="text-muted-foreground">Partagez le code avec vos participants</p>
+            <p className="text-primary-foreground">Partagez le code avec vos participants</p>
           </div>
 
           <Card className="p-8 bg-card/80 backdrop-blur-sm shadow-elegant border-2 space-y-8">
@@ -124,6 +139,13 @@ const ShareDraw = () => {
                       </>
                     )}
                   </Button>
+                  {
+                    isMobile && (
+                      <Button size="sm" onClick={share}>
+                        📱 Envoyer par SMS
+                      </Button>
+                    )
+                  }
                 </div>
               </div>
             </motion.div>

@@ -64,14 +64,19 @@ export const FlipCard = ({ frontContent, backContent, onFlipComplete }: FlipCard
       </motion.div>
 
       {!isFlipped && (
-        <motion.p
-          className="text-center text-muted-foreground mt-6"
+        <motion.div
+          className="text-center text-primary-foreground mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.5  }}
         >
-          Touchez la carte pour découvrir votre Secret Santa ! 🎁
-        </motion.p>
+          <motion.p
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Touchez la carte pour découvrir votre Secret Santa ! 🎁
+          </motion.p>
+        </motion.div>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Participant, Couple, Draw } from '@/types/draw';
+import {compressToEncodedURIComponent, decompressFromEncodedURIComponent} from 'lz-string';
 
 /**
  * Generate a unique 6-character code
@@ -106,7 +107,7 @@ export function generateAssignments(
  */
 export function encodeDrawToUrl(draw: Draw): string {
   const json = JSON.stringify(draw);
-  return btoa(encodeURIComponent(json));
+  return compressToEncodedURIComponent(json);
 }
 
 /**
@@ -114,7 +115,7 @@ export function encodeDrawToUrl(draw: Draw): string {
  */
 export function decodeDrawFromUrl(encoded: string): Draw | null {
   try {
-    const json = decodeURIComponent(atob(encoded));
+    const json = decompressFromEncodedURIComponent(encoded);
     return JSON.parse(json) as Draw;
   } catch (error) {
     console.error('Failed to decode draw:', error);

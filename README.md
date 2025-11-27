@@ -15,7 +15,7 @@
 
 - Génération d’un code unique pour le tirage
 
-- Partage facile : code + QR Code
+- Partage facile : lien à copier en un clic 
 
 ### 🎁 Espace Participant
 

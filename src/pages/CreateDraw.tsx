@@ -12,7 +12,6 @@ import { Participant, Couple, Draw } from '@/types/draw';
 import { generateDrawCode, generateAssignments, encodeDrawToUrl } from '@/utils/drawLogic';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
-import { encryptString } from "@/utils/crypto.ts";
 
 const CreateDraw = () => {
   const navigate = useNavigate();
@@ -129,7 +128,7 @@ const CreateDraw = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen bg-primary relative overflow-hidden">
       <Snowfall />
 
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-3xl">
@@ -139,10 +138,10 @@ const CreateDraw = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary-foreground via-accent to-secondary bg-clip-text text-transparent">
               Créer un tirage
             </h1>
-            <p className="text-muted-foreground">Organisez votre Secret Santa en quelques étapes</p>
+            <p className="text-primary-foreground">Organisez votre Secret Santa en quelques étapes</p>
           </div>
 
           <Card className="p-6 md:p-8 bg-card/80 backdrop-blur-sm shadow-elegant border-2">

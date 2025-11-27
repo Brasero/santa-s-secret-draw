@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const Home = () => {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative bg-primary overflow-hidden">
       <Snowfall />
       
       <div className="relative z-10 container mx-auto px-4 py-12">
@@ -22,14 +22,14 @@ const Home = () => {
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Gift className="w-20 h-20 mx-auto text-primary mb-4" />
+            <Gift className="w-20 h-20 mx-auto text-primary-foreground mb-4" />
           </motion.div>
 
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary-foreground via-accent to-secondary bg-clip-text text-transparent">
             Secret Santa
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-primary-foreground mb-12 max-w-2xl mx-auto">
             Organisez votre tirage au sort de Noël en quelques clics.
             Simple, gratuit et magique ! ✨
           </p>

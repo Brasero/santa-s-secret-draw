@@ -34,7 +34,7 @@ const Reveal = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative bg-primary overflow-hidden">
       <Snowfall />
 
       <div className="relative z-10 container mx-auto px-4 py-12">
@@ -47,10 +47,10 @@ const Reveal = () => {
           {!revealed ? (
             <>
               <div className="text-center mb-12">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary-foreground">
                   Bonjour {result.giverName} ! 👋
                 </h1>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-lg text-primary-foreground/60">
                   Prêt à découvrir ton Secret Santa ?
                 </p>
               </div>
@@ -110,7 +110,7 @@ const Reveal = () => {
                     </p>
                   </motion.div>
                 }
-                onFlipComplete={() => setRevealed(true)}
+                onFlipComplete={() => setTimeout(() => setRevealed(true), 1500)}
               />
             </>
           ) : (
@@ -128,12 +128,12 @@ const Reveal = () => {
                   className="bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl p-8 mb-6"
                   animate={{
                     boxShadow: [
-                      '0 0 20px rgba(196, 30, 58, 0.3)',
-                      '0 0 40px rgba(212, 175, 55, 0.4)',
-                      '0 0 20px rgba(196, 30, 58, 0.3)',
+                      '0 0 20px 5px rgba(196, 30, 58, 0.5)',
+                      '0 0 40px 5px rgba(212, 175, 55, 0.8)',
+                      '0 0 20px 5px rgba(196, 30, 58, 0.5)',
                     ],
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  transition={{ duration: 1, repeat: Infinity }}
                 >
                   <p className="text-4xl md:text-5xl font-bold text-white">
                     {result.receiverName}
