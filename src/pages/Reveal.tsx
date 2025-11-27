@@ -4,18 +4,18 @@ import { Home, Gift, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Snowfall } from '@/components/Snowfall';
 import { FlipCard } from '@/components/FlipCard';
-import { getDrawByCode, getAssignment } from '@/utils/drawLogic';
+import { decodeDrawFromUrl, getAssignment } from '@/utils/drawLogic';
 import { DrawResult } from '@/types/draw';
 import { motion } from 'framer-motion';
 
 const Reveal = () => {
-  const { code, participantId } = useParams<{ code: string; participantId: string }>();
+  const { encodedDraw, participantId } = useParams<{ encodedDraw: string; participantId: string }>();
   const [result, setResult] = useState<DrawResult | null>(null);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
-    if (code && participantId) {
-      const draw = getDrawByCode(code);
+    if (encodedDraw && participantId) {
+      const draw = decodeDrawFromUrl(encodedDraw);
       if (draw) {
         const assignment = getAssignment(draw, participantId);
         if (assignment) {
@@ -23,7 +23,7 @@ const Reveal = () => {
         }
       }
     }
-  }, [code, participantId]);
+  }, [encodedDraw, participantId]);
 
   if (!result) {
     return (

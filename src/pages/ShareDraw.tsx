@@ -5,7 +5,7 @@ import { Copy, Check, Share2, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Snowfall } from '@/components/Snowfall';
-import { getDrawByCode } from '@/utils/drawLogic';
+import { decodeDrawFromUrl, encodeDrawToUrl } from '@/utils/drawLogic';
 import { Draw } from '@/types/draw';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
@@ -13,21 +13,21 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
 const ShareDraw = () => {
-  const { code } = useParams<{ code: string }>();
+  const { code: encodedDraw } = useParams<{ code: string }>();
   const { toast } = useToast();
   const [draw, setDraw] = useState<Draw | null>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (code) {
-      const foundDraw = getDrawByCode(code);
-      setDraw(foundDraw);
+    if (encodedDraw) {
+      const decodedDraw = decodeDrawFromUrl(encodedDraw);
+      setDraw(decodedDraw);
     }
-  }, [code]);
+  }, [encodedDraw]);
 
   const copyCode = () => {
-    if (code) {
-      navigator.clipboard.writeText(code);
+    if (draw?.code) {
+      navigator.clipboard.writeText(draw.code);
       setCopied(true);
       toast({
         title: 'Code copié !',
@@ -37,7 +37,7 @@ const ShareDraw = () => {
     }
   };
 
-  const shareUrl = `${window.location.origin}/access?code=${code}`;
+  const shareUrl = encodedDraw ? `${window.location.origin}/access/${encodedDraw}` : '';
 
   const copyUrl = () => {
     navigator.clipboard.writeText(shareUrl);
@@ -98,7 +98,7 @@ const ShareDraw = () => {
                 CODE DU TIRAGE
               </p>
               <p className="text-5xl font-bold text-primary-foreground tracking-wider mb-4 break-all">
-                {code}
+                {draw.code}
               </p>
               <Button
                 onClick={copyCode}

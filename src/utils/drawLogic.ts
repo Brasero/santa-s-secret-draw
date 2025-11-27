@@ -1,7 +1,5 @@
 import { nanoid } from 'nanoid';
 import { Participant, Couple, Draw } from '@/types/draw';
-import fs from 'fs';
-import * as process from "process";
 
 /**
  * Generate a unique 6-character code
@@ -104,45 +102,24 @@ export function generateAssignments(
 }
 
 /**
- * Save a draw to json file with draw code as filename in file system
+ * Encode draw data to base64 for URL
  */
-export function saveDraw(draw: Draw, drawCode: string): void {
-  const fileName = `secret_santa_draw_${drawCode}.json`;
-  const json = JSON.stringify(draw, null, 2);
-  fs.writeFileSync(process.cwd()+`/data/${fileName}`, json, 'utf-8');
+export function encodeDrawToUrl(draw: Draw): string {
+  const json = JSON.stringify(draw);
+  return btoa(encodeURIComponent(json));
 }
 
 /**
- * Get all draws from file system
+ * Decode draw data from base64 URL
  */
-export function getAllDraws(): Record<string, Draw> {
-  const draws: Record<string, Draw> = {};
-  const dataDir = process.cwd()+'/data';
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir);
+export function decodeDrawFromUrl(encoded: string): Draw | null {
+  try {
+    const json = decodeURIComponent(atob(encoded));
+    return JSON.parse(json) as Draw;
+  } catch (error) {
+    console.error('Failed to decode draw:', error);
+    return null;
   }
-  const files = fs.readdirSync(dataDir);
-  for (const file of files) {
-    if (file.startsWith('secret_santa_draw_') && file.endsWith('.json')) {
-      const filePath = `${dataDir}/${file}`;
-      const json = fs.readFileSync(filePath, 'utf-8');
-      const draw: Draw = JSON.parse(json);
-      const code = file
-        .replace('secret_santa_draw_', '')
-        .replace('.json', '')
-        .toUpperCase();
-      draws[code] = draw;
-    }
-  }
-  return draws;
-}
-
-/**
- * Get a specific draw by code
- */
-export function getDrawByCode(code: string): Draw | null {
-  const draws = getAllDraws();
-  return draws[code.toUpperCase()] || null;
 }
 
 /**
