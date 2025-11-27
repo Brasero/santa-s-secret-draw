@@ -27,7 +27,7 @@ const ShareDraw = () => {
   }, [encodedDraw]);
   
   
-  const shareUrl = encodedDraw ? `${window.location.origin}/santa-s-secret-draw/access/${encodedDraw}` : '';
+  const shareUrl = encodedDraw ? `${window.location.origin}/santa-s-secret-draw/#/access/${encodedDraw}` : '';
   
   const share = () => {
     const message = `Rejoins le tirage Secret Santa ${draw?.drawName} ! \n Participe au tirage au sort Secret Santa en utilisant ce lien : \n ${shareUrl}`;
