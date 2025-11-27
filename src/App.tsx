@@ -17,7 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={"/santa-s-secret-draw"}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<CreateDraw />} />
