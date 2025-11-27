@@ -91,67 +91,44 @@ const ShareDraw = () => {
             {/* Code Display */}
             <motion.div
               className="bg-gradient-to-br from-primary to-primary-glow rounded-3xl p-8 text-center shadow-festive"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              whileHover={{scale: 1.02}}
+              transition={{type: 'spring', stiffness: 300}}
             >
               <p className="text-primary-foreground/80 text-sm font-medium mb-2">
-                CODE DU TIRAGE
+                LIEN DU TIRAGE
               </p>
-              <p className="text-5xl font-bold text-primary-foreground tracking-wider mb-4 break-all">
-                {draw.code}
-              </p>
-              <Button
-                onClick={copyCode}
-                variant="secondary"
-                size="sm"
-                className="bg-white/20 hover:bg-white/30 text-primary-foreground border-2 border-white/30"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4" />
-                    Copié !
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4" />
-                    Copier le code
-                  </>
-                )}
-              </Button>
-            </motion.div>
-
-            {/* QR Code */}
-            <div className="space-y-4">
-              <p className="text-center text-sm text-muted-foreground">
-                Ou scannez ce QR Code
-              </p>
-              <div className="flex justify-center">
-                <div className="bg-white p-6 rounded-3xl shadow-elegant">
-                  <QRCodeSVG
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Lien direct</Label>
+                <div className="flex flex-col gap-2">
+                  <Input
                     value={shareUrl}
-                    size={200}
-                    level="H"
-                    includeMargin
+                    readOnly
+                    className="font-mono text-sm"
                   />
+                  <Button
+                    onClick={copyUrl}
+                    variant="secondary"
+                    size="sm"
+                    className="bg-white/20 hover:bg-white/30 text-primary-foreground border-2 border-white/30"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-4 h-4"/>
+                        Copié !
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4"/>
+                        Copier le lien
+                      </>
+                    )}
+                  </Button>
                 </div>
               </div>
-            </div>
-
+            </motion.div>
             {/* Share URL */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Lien direct</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={shareUrl}
-                  readOnly
-                  className="font-mono text-sm"
-                />
-                <Button onClick={copyUrl} size="icon" variant="outline">
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
+            
+            
             {/* Instructions */}
             <div className="bg-muted/50 rounded-2xl p-6 space-y-3">
               <h3 className="font-semibold flex items-center gap-2">

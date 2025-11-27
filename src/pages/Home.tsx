@@ -42,13 +42,6 @@ const Home = () => {
                 Créer un tirage
               </Button>
             </Link>
-            
-            <Link to="/access">
-              <Button variant="golden" size="lg" className="w-full sm:w-auto">
-                <Gift className="w-5 h-5" />
-                Accéder à un tirage
-              </Button>
-            </Link>
           </div>
 
           {/* Features */}
