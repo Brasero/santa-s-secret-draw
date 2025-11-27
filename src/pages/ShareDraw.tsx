@@ -50,7 +50,7 @@ const ShareDraw = () => {
     }
   }
 
-  const shareUrl = encodedDraw ? `${window.location.origin}/access/${encodedDraw}` : '';
+  const shareUrl = encodedDraw ? `${window.location.origin}/santa-s-secret-draw/access/${encodedDraw}` : '';
 
   const copyUrl = () => {
     setCopied(true);
